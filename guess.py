@@ -26,15 +26,17 @@ def choose_level():
     # Select the range based on the chosen level
     if level == 1:
         chosen_range = 50
-        attempts_allowed = 10
+        attempts_left = 10
     elif level == 2:
         chosen_range = 100
-        attempts_allowed = 8
+        attempts_left = 8
     elif level == 3:
         chosen_range = 500
-        attempts_allowed = 10
-        
-    return chosen_range, attempts_allowed
+        attempts_left = 10
+    else:
+        attempts_left = -1
+
+    return chosen_range, attempts_left
 
 # ---------- Choose a mode ----------
 # Goal: keep asking until the player picks Classic or Time Challenge.
@@ -58,8 +60,8 @@ def choose_mode():
 # Goal: pick the secret number (use DEBUG_SECRET when it is not None) and start the clock.
 
 def choose_secret_number(mode: int):
-    while True: 
-        if mode == 1:
+    if mode == 1:
+        while True: 
             try:
                 chosen_range = int(input("Choose what the highest number should be: "))
                 if chosen_range < 1:
@@ -69,41 +71,43 @@ def choose_secret_number(mode: int):
             except ValueError:
                 print("\nInvalid choice. Please choose a number greater than 0.\n")
                 continue
-            
-        elif mode == 2:
-            chosen_range, attempts_allowed = choose_level()
+        
+    elif mode == 2:
+        chosen_range, attempts_left = choose_level()
         
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
-    return secret_number, attempts_allowed
+    return secret_number, attempts_left
 
 
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-def guess_loop(secret_number: int):
+def guess_loop(secret_number: int, attempts_left: int):
+    attempt = 0
     guess = 0
-    while True:
+    while guess != secret_number and attempts_left != 0:
         try:
             guess = int(input("Enter your guess: "))
-            guess += 1
+            attempt += 1
+            attempts_left -= 1
         except ValueError:
-            print("Invalid input. Please enter a number.")
+            print("\nInvalid input. Please enter a number.")
 
         if guess < secret_number:
-            print("Too low! Try again.")
+            print(f"\nToo low! You have {attempts_left} attempts left. Try again.")
         elif guess > secret_number:
-            print("Too high! Try again.")
+            print(f"\nToo high! You have {attempts_left} attempts left. Try again.")
         else:
-            print("Congratulations! You've guessed the secret number!")
+            print(f"\nCongratulations! You've guessed the secret number in {attempt} attempts!")
             break
 
 # ---------- End of round ----------
 # Goal: show the result that matches how the round ended.
 
 def _main():
-    choose_mode()
-    secret_number = choose_secret_number()
-    guess_loop(secret_number)
+    mode = choose_mode()
+    secret_number, attempts_left = choose_secret_number(mode)
+    guess_loop(secret_number, attempts_left)
     print("Thanks for playing!")
 
 if __name__ == "__main__":
