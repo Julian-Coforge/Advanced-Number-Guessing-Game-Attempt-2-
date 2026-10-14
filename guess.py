@@ -33,8 +33,6 @@ def choose_level():
     elif level == 3:
         chosen_range = 500
         attempts_left = 10
-    else:
-        attempts_left = -1
 
     return chosen_range, attempts_left
 
@@ -60,6 +58,9 @@ def choose_mode():
 # Goal: pick the secret number (use DEBUG_SECRET when it is not None) and start the clock.
 
 def choose_secret_number(mode: int):
+
+    attempts_left = -1  # Default value for classic mode
+
     if mode == 1:
         while True: 
             try:
@@ -94,12 +95,15 @@ def guess_loop(secret_number: int, attempts_left: int):
             print("\nInvalid input. Please enter a number.")
 
         if guess < secret_number:
-            print(f"\nToo low! You have {attempts_left} attempts left. Try again.")
+            print("\nToo low!")
         elif guess > secret_number:
-            print(f"\nToo high! You have {attempts_left} attempts left. Try again.")
+            print("\nToo high!")
         else:
             print(f"\nCongratulations! You've guessed the secret number in {attempt} attempts!")
             break
+
+        if attempts_left > 0:
+            print(f"You have {attempts_left} attempts left.")
 
 # ---------- End of round ----------
 # Goal: show the result that matches how the round ended.
