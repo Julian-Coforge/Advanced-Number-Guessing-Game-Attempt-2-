@@ -3,7 +3,7 @@ import time
 
 # ---------- Settings ----------
 DEBUG_SECRET = None   # For testing, set to a number such as 42. Set back to None before your final commit.
-TIME_LIMIT = 60       # Seconds allowed in Time Challenge mode
+TIME_LIMIT = 10       # Seconds allowed in Time Challenge mode
 
 print("\nWelcome to the Number Guessing Game")
 
@@ -66,28 +66,41 @@ def choose_secret_number(mode: int):
             try:
                 chosen_range = int(input("\nChoose what the highest number should be: "))
                 if chosen_range < 1:
-                    print("\nPlease choose a number greater than 0.\n")
+                    print("\nPlease choose a number greater than 0.")
                     continue
                 break
             except ValueError:
-                print("\nInvalid choice. Please choose a number greater than 0.\n")
+                print("\nInvalid choice. Please choose a number greater than 0.")
                 continue
         
-    elif mode == 2:
+    elif mode == 2 or mode == 3:
         chosen_range, attempts_left = choose_level()
         print(f"\nYou will have {attempts_left} attempts to guess a number between 1 and {chosen_range}.")
         
+        
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
-    return secret_number, attempts_left
+    return secret_number, attempts_left, mode
 
 
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-def guess_loop(secret_number: int, attempts_left: int):
+
+def guess_loop(secret_number: int, attempts_left: int, mode: int):
     attempt = 0
     guess = 0
+    start_time = time.time()
+
     while guess != secret_number and attempts_left != 0:
+
+        elapsed_time = time.time() - start_time
+        if mode == 3 and elapsed_time > TIME_LIMIT:
+            print("\nTime's up! You ran out of time.")
+            break
+        elif mode == 3:
+            time_remaining = TIME_LIMIT - elapsed_time
+            print(f"\nYou have {time_remaining:.2f} seconds left.")
+
         try:
             guess = int(input("Enter your guess: "))
             attempt += 1
@@ -106,14 +119,17 @@ def guess_loop(secret_number: int, attempts_left: int):
         if attempts_left > 0:
             print(f"You have {attempts_left} attempts left.")
 
+    print(f"\nThe secret number was: {secret_number}")
+
+
 # ---------- End of round ----------
 # Goal: show the result that matches how the round ended.
 
 def _main():
     mode = choose_mode()
-    secret_number, attempts_left = choose_secret_number(mode)
-    guess_loop(secret_number, attempts_left)
-    print("\nThanks for playing!")
+    secret_number, attempts_left, mode = choose_secret_number(mode)
+    guess_loop(secret_number, attempts_left, mode)
+    print("\nThanks for playing!\n")
 
 if __name__ == "__main__":
     _main()
