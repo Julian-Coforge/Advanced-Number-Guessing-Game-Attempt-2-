@@ -73,20 +73,31 @@ def choose_secret_number(mode: int):
                 print("\nInvalid choice. Please choose a number greater than 0.\n")
                 continue
         
-    elif mode == 2:
+    elif mode == 2 or mode == 3:
         chosen_range, attempts_left = choose_level()
         print(f"\nYou will have {attempts_left} attempts to guess a number between 1 and {chosen_range}.")
         
+        
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
-    return secret_number, attempts_left
+    return secret_number, attempts_left, mode
 
 
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-def guess_loop(secret_number: int, attempts_left: int):
+def start_timer():
+    start_time = time.time()
+    return start_time
+
+def get_elapsed_time(start_time):
+    elapsed_time = time.time() - start_time
+    return elapsed_time
+
+
+def guess_loop(secret_number: int, attempts_left: int, mode: int):
     attempt = 0
     guess = 0
+    start_time = start_timer()
     while guess != secret_number and attempts_left != 0:
         try:
             guess = int(input("Enter your guess: "))
@@ -111,8 +122,8 @@ def guess_loop(secret_number: int, attempts_left: int):
 
 def _main():
     mode = choose_mode()
-    secret_number, attempts_left = choose_secret_number(mode)
-    guess_loop(secret_number, attempts_left)
+    secret_number, attempts_left, mode = choose_secret_number(mode)
+    guess_loop(secret_number, attempts_left, mode)
     print("\nThanks for playing!")
 
 if __name__ == "__main__":
