@@ -13,7 +13,7 @@ print("\nWelcome to the Number Guessing Game")
 def choose_level():
     print("\nYou can choose: \n[1] Easy (1-50, 10 attempts) \n[2] Medium (1-100, 8 attempts) \n[3] Hard (1-500, 10 attempts)\n")
 
-    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
+    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range.
     while True:  
         try:
             level = int(input("Choose a level (1, 2, or 3): "))
@@ -23,7 +23,7 @@ def choose_level():
             print("\nInvalid choice. Please choose 1, 2, or 3.\n")
             continue
 
-    # Select the range based on the chosen level
+    # Select the range based on the chosen level.
     if level == 1:
         chosen_range = 50
         attempts_left = 10
@@ -42,7 +42,7 @@ def choose_level():
 def choose_mode():
     print("\nYou can choose: \n[1] Classic mode \n[2] Select a Difficulty\n[3] Time Challenge mode (limited time)\n")
 
-    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
+    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range.
     while True: 
         try:
             mode = int(input("Choose a mode (1, 2, or 3): "))
@@ -59,8 +59,10 @@ def choose_mode():
 
 def choose_secret_number(mode: int):
 
-    attempts_left = -1  # Default value for classic mode
+    # Prevents classic mode from having an attempt limit.
+    attempts_left = -1
 
+    # Loop to catch non-integer inputs, output error and repeating loop, break if within range.
     if mode == 1:
         while True: 
             try:
@@ -72,7 +74,8 @@ def choose_secret_number(mode: int):
             except ValueError:
                 print("\nInvalid choice. Please choose a number greater than 0.")
                 continue
-        
+
+    # Gets the range and number of attempts from selected difficulty
     elif mode == 2 or mode == 3:
         chosen_range, attempts_left = choose_level()
         print(f"\nYou will have {attempts_left} attempts to guess a number between 1 and {chosen_range}.")
@@ -91,8 +94,10 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int):
     guess = 0
     start_time = time.time()
 
+    # Guess loop continues until the player guesses the secret number or runs out of attempts
     while guess != secret_number and attempts_left != 0:
 
+        # In timed mode, break when the time limit is reached, otherwise show the time remaining.
         elapsed_time = time.time() - start_time
         if mode == 3 and elapsed_time > TIME_LIMIT:
             print("\nTime's up! You ran out of time.")
@@ -108,6 +113,7 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int):
         except ValueError:
             print("\nInvalid input. Please enter a number.")
 
+        # Prints feedback on guess
         if guess < secret_number:
             print("\nToo low!")
         elif guess > secret_number:
