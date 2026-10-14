@@ -23,7 +23,14 @@ def choose_level():
             print("\nInvalid choice. Please choose 1, 2, or 3.\n")
             continue
 
-    return level
+    if level == 1:
+        chosen_range = 50
+    elif level == 2:
+        chosen_range = 100
+    elif level == 3:
+        chosen_range = 500
+        
+    return chosen_range
 
 # ---------- Choose a mode ----------
 # Goal: keep asking until the player picks Classic or Time Challenge.
@@ -34,11 +41,11 @@ def choose_mode():
     # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
     while True: 
         try:
-            mode = int(input("Choose a mode (1 or 2): "))
-            if 1 <= mode <= 2:
+            mode = int(input("Choose a mode (1, 2, or 3): "))
+            if 1 <= mode <= 3:
                 break
         except ValueError:
-            print("\nInvalid choice. Please choose 1 or 2.\n")
+            print("\nInvalid choice. Please choose 1, 2, or 3.\n")
             continue
 
     return mode
@@ -46,18 +53,22 @@ def choose_mode():
 # ---------- Set up the round ----------
 # Goal: pick the secret number (use DEBUG_SECRET when it is not None) and start the clock.
 
-def choose_secret_number():
+def choose_secret_number(mode: int):
     while True: 
-        try:
-            chosen_range = int(input("Choose what the highest number should be: "))
-            if chosen_range < 1:
-                print("\nPlease choose a number greater than 0.\n")
+        if mode == 1:
+            try:
+                chosen_range = int(input("Choose what the highest number should be: "))
+                if chosen_range < 1:
+                    print("\nPlease choose a number greater than 0.\n")
+                    continue
+                break
+            except ValueError:
+                print("\nInvalid choice. Please choose a number greater than 0.\n")
                 continue
-            break
-        except ValueError:
-            print("\nInvalid choice. Please choose 1 or 2.\n")
-            continue
-
+            
+        elif mode == 2:
+            chosen_range = choose_level()
+        
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
     return secret_number
 
