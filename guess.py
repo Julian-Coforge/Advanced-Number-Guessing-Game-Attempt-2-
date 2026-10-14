@@ -3,7 +3,7 @@ import time
 
 # ---------- Settings ----------
 DEBUG_SECRET = None   # For testing, set to a number such as 42. Set back to None before your final commit.
-TIME_LIMIT = 10       # Seconds allowed in Time Challenge mode
+TIME_LIMIT = 60       # Seconds allowed in Time Challenge mode
 
 print("\nWelcome to the Number Guessing Game")
 
