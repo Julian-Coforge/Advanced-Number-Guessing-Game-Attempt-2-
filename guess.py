@@ -3,7 +3,7 @@ import time
 
 # ---------- Settings ----------
 DEBUG_SECRET = None   # For testing, set to a number such as 42. Set back to None before your final commit.
-TIME_LIMIT = 60       # Seconds allowed in Time Challenge mode
+TIME_LIMIT = 10       # Seconds allowed in Time Challenge mode
 
 print("\nWelcome to the Number Guessing Game")
 
@@ -66,11 +66,11 @@ def choose_secret_number(mode: int):
             try:
                 chosen_range = int(input("\nChoose what the highest number should be: "))
                 if chosen_range < 1:
-                    print("\nPlease choose a number greater than 0.\n")
+                    print("\nPlease choose a number greater than 0.")
                     continue
                 break
             except ValueError:
-                print("\nInvalid choice. Please choose a number greater than 0.\n")
+                print("\nInvalid choice. Please choose a number greater than 0.")
                 continue
         
     elif mode == 2 or mode == 3:
@@ -85,9 +85,6 @@ def choose_secret_number(mode: int):
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-def start_timer():
-    start_time = time.time()
-    return start_time
 
 def get_elapsed_time(start_time):
     elapsed_time = time.time() - start_time
@@ -97,8 +94,18 @@ def get_elapsed_time(start_time):
 def guess_loop(secret_number: int, attempts_left: int, mode: int):
     attempt = 0
     guess = 0
-    start_time = start_timer()
+    start_time = time.time()
+
     while guess != secret_number and attempts_left != 0:
+
+        elapsed_time = time.time() - start_time
+        if mode == 3 and elapsed_time > TIME_LIMIT:
+            print("\nTime's up! You ran out of time.")
+            break
+        elif mode == 3:
+            time_remaining = TIME_LIMIT - elapsed_time
+            print(f"\nYou have {time_remaining:.2f} seconds left.")
+
         try:
             guess = int(input("Enter your guess: "))
             attempt += 1
