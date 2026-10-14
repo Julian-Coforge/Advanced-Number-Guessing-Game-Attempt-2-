@@ -26,6 +26,8 @@ def choose_mode():
             print("\nInvalid choice. Please choose 1 or 2.\n")
             continue
 
+    return mode
+
 # ---------- Set up the round ----------
 # Goal: pick the secret number (use DEBUG_SECRET when it is not None) and start the clock.
 
@@ -48,11 +50,12 @@ def choose_secret_number():
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-def guess_loop(secret_number):
+def guess_loop(secret_number: int):
     guess = 0
     while True:
         try:
             guess = int(input("Enter your guess: "))
+            guess += 1
         except ValueError:
             print("Invalid input. Please enter a number.")
 
