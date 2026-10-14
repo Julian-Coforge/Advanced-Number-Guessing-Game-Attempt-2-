@@ -5,7 +5,7 @@ import time
 DEBUG_SECRET = None   # For testing, set to a number such as 42. Set back to None before your final commit.
 TIME_LIMIT = 60       # Seconds allowed in Time Challenge mode
 
-print("Welcome to the Number Guessing Game")
+print("\nWelcome to the Number Guessing Game")
 
 # ---------- Choose a level ----------
 # Goal: keep asking until the player picks a valid level, then set the range and attempt limit.
@@ -64,7 +64,7 @@ def choose_secret_number(mode: int):
     if mode == 1:
         while True: 
             try:
-                chosen_range = int(input("Choose what the highest number should be: "))
+                chosen_range = int(input("\nChoose what the highest number should be: "))
                 if chosen_range < 1:
                     print("\nPlease choose a number greater than 0.\n")
                     continue
@@ -75,6 +75,7 @@ def choose_secret_number(mode: int):
         
     elif mode == 2:
         chosen_range, attempts_left = choose_level()
+        print(f"\nYou will have {attempts_left} attempts to guess a number between 1 and {chosen_range}.")
         
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
     return secret_number, attempts_left
@@ -112,7 +113,7 @@ def _main():
     mode = choose_mode()
     secret_number, attempts_left = choose_secret_number(mode)
     guess_loop(secret_number, attempts_left)
-    print("Thanks for playing!")
+    print("\nThanks for playing!")
 
 if __name__ == "__main__":
     _main()
