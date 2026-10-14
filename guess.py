@@ -86,11 +86,6 @@ def choose_secret_number(mode: int):
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
 
-def get_elapsed_time(start_time):
-    elapsed_time = time.time() - start_time
-    return elapsed_time
-
-
 def guess_loop(secret_number: int, attempts_left: int, mode: int):
     attempt = 0
     guess = 0
@@ -124,6 +119,9 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int):
         if attempts_left > 0:
             print(f"You have {attempts_left} attempts left.")
 
+    print(f"\nThe secret number was: {secret_number}")
+
+
 # ---------- End of round ----------
 # Goal: show the result that matches how the round ended.
 
@@ -131,7 +129,7 @@ def _main():
     mode = choose_mode()
     secret_number, attempts_left, mode = choose_secret_number(mode)
     guess_loop(secret_number, attempts_left, mode)
-    print("\nThanks for playing!")
+    print("\nThanks for playing!\n")
 
 if __name__ == "__main__":
     _main()
