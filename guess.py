@@ -11,7 +11,7 @@ print("Welcome to the Number Guessing Game")
 # Goal: keep asking until the player picks a valid level, then set the range and attempt limit.
 
 def choose_level():
-    print("You can choose: \n[1] Easy (1-50, 10 attempts) \n[2] Medium (1-100, 8 attempts) \n[3] Hard (1-500, 10 attempts)\n")
+    print("\nYou can choose: \n[1] Easy (1-50, 10 attempts) \n[2] Medium (1-100, 8 attempts) \n[3] Hard (1-500, 10 attempts)\n")
 
     # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
     while True:  
@@ -23,14 +23,18 @@ def choose_level():
             print("\nInvalid choice. Please choose 1, 2, or 3.\n")
             continue
 
+    # Select the range based on the chosen level
     if level == 1:
         chosen_range = 50
+        attempts_allowed = 10
     elif level == 2:
         chosen_range = 100
+        attempts_allowed = 8
     elif level == 3:
         chosen_range = 500
+        attempts_allowed = 10
         
-    return chosen_range
+    return chosen_range, attempts_allowed
 
 # ---------- Choose a mode ----------
 # Goal: keep asking until the player picks Classic or Time Challenge.
@@ -67,10 +71,10 @@ def choose_secret_number(mode: int):
                 continue
             
         elif mode == 2:
-            chosen_range = choose_level()
+            chosen_range, attempts_allowed = choose_level()
         
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
-    return secret_number
+    return secret_number, attempts_allowed
 
 
 # ---------- Guess loop ----------
