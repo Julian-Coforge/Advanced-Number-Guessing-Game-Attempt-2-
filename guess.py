@@ -10,6 +10,21 @@ print("Welcome to the Number Guessing Game")
 # ---------- Choose a level ----------
 # Goal: keep asking until the player picks a valid level, then set the range and attempt limit.
 
+def choose_level():
+    print("You can choose: \n[1] Easy (1-50, 10 attempts) \n[2] Medium (1-100, 8 attempts) \n[3] Hard (1-500, 10 attempts)\n")
+
+    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
+    while True:  
+        try:
+            level = int(input("Choose a level (1, 2, or 3): "))
+            if 1 <= level <= 3:
+                break
+        except ValueError:
+            print("\nInvalid choice. Please choose 1, 2, or 3.\n")
+            continue
+
+    return level
+
 # ---------- Choose a mode ----------
 # Goal: keep asking until the player picks Classic or Time Challenge.
 
