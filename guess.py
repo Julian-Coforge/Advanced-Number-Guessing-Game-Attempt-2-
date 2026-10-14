@@ -29,38 +29,49 @@ def choose_mode():
 # ---------- Set up the round ----------
 # Goal: pick the secret number (use DEBUG_SECRET when it is not None) and start the clock.
 
-while True: 
-    try:
-        chosen_range = int(input("Choose what the highest number should be: "))
-        if chosen_range < 1:
-            print("\nPlease choose a number greater than 0.\n")
+def choose_secret_number():
+    while True: 
+        try:
+            chosen_range = int(input("Choose what the highest number should be: "))
+            if chosen_range < 1:
+                print("\nPlease choose a number greater than 0.\n")
+                continue
+            break
+        except ValueError:
+            print("\nInvalid choice. Please choose 1 or 2.\n")
             continue
-        break
-    except ValueError:
-        print("\nInvalid choice. Please choose 1 or 2.\n")
-        continue
 
-secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
+    secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
+    return secret_number
 
 
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
-guess = 0
+def guess_loop(secret_number):
+    guess = 0
+    while True:
+        try:
+            guess = int(input("Enter your guess: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
-while True:
-    try:
-        guess = int(input("Enter your guess: "))
-    except ValueError:
-        print("Invalid input. Please enter a number.")
-
-    if guess < secret_number:
-        print("Too low! Try again.")
-    elif guess > secret_number:
-        print("Too high! Try again.")
-    else:
-        print("Congratulations! You've guessed the secret number!")
-        break
+        if guess < secret_number:
+            print("Too low! Try again.")
+        elif guess > secret_number:
+            print("Too high! Try again.")
+        else:
+            print("Congratulations! You've guessed the secret number!")
+            break
 
 # ---------- End of round ----------
 # Goal: show the result that matches how the round ended.
+
+def _main():
+    choose_mode()
+    secret_number = choose_secret_number()
+    guess_loop(secret_number)
+    print("Thanks for playing!")
+
+if __name__ == "__main__":
+    _main()
