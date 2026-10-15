@@ -40,7 +40,7 @@ def choose_level():
 # Goal: keep asking until the player picks Classic or Time Challenge.
 
 def choose_mode():
-    print("\nYou can choose: \n[1] Classic mode \n[2] Select a Difficulty\n[3] Time Challenge mode (limited time)\n")
+    print("\nYou can choose: \n[1] Classic mode \n[2] Classic with Difficulty\n[3] Time Challenge mode (limited time)\n")
 
     # Loop to catch non-integer inputs, printing error and repeating loop, break if within range.
     while True: 
@@ -82,14 +82,19 @@ def choose_secret_number(mode: int):
         
         
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
-    return secret_number, attempts_left, mode
+    return secret_number, attempts_left, mode, chosen_range
 
 
 # ---------- Guess loop ----------
 # Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
 
+def out_of_range(guess: int, chosen_range: int) -> bool:
+    if guess < 1 or guess > chosen_range:
+        print(f"\nOut of range. Enter a number between 1 and {chosen_range}.")
+        return True
+    return False
 
-def guess_loop(secret_number: int, attempts_left: int, mode: int):
+def guess_loop(secret_number: int, attempts_left: int, mode: int, chosen_range: int):
     attempt = 0
     guess = 0
     start_time = time.time()
@@ -108,6 +113,8 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int):
 
         try:
             guess = int(input("Enter your guess: "))
+            if out_of_range(guess, chosen_range):
+                continue
             attempt += 1
             attempts_left -= 1
         except ValueError:
@@ -133,8 +140,8 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int):
 
 def _main():
     mode = choose_mode()
-    secret_number, attempts_left, mode = choose_secret_number(mode)
-    guess_loop(secret_number, attempts_left, mode)
+    secret_number, attempts_left, mode, chosen_range = choose_secret_number(mode)
+    guess_loop(secret_number, attempts_left, mode, chosen_range)
     print("\nThanks for playing!\n")
 
 if __name__ == "__main__":

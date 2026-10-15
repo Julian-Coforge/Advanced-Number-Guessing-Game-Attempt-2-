@@ -1,5 +1,6 @@
 # Advanced Number Guessing Game (Attempt 2)
-Note: I forgot to do feature branches when creating the first version, hence attempt 2
+Notes: I forgot to do feature branches when creating the first version, hence attempt 2
+Additionally, I had intepreted Feature 1 (Classic Mode) 'The computer picks a random secret number in the chosen range.' as meaning the user selects the range, so I have one extra mode.. the Classic with Difficulty is Feature 2, and Timed Challenge is Feature 3.
 
 | # | What I tested | What I did | Expected result | Actual result | Pass? |
 |---|---------------|------------|-----------------|---------------|-------|
