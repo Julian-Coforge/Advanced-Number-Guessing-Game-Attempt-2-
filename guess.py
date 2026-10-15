@@ -13,7 +13,7 @@ print("\nWelcome to the Number Guessing Game")
 def choose_level():
     print("\nYou can choose: \n[1] Easy (1-50, 10 attempts) \n[2] Medium (1-100, 8 attempts) \n[3] Hard (1-500, 10 attempts)\n")
 
-    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range.
+    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
     while True:  
         try:
             level = int(input("Choose a level (1, 2, or 3): "))
@@ -23,7 +23,7 @@ def choose_level():
             print("\nInvalid choice. Please choose 1, 2, or 3.\n")
             continue
 
-    # Select the range based on the chosen level.
+    # Select the range based on the chosen level
     if level == 1:
         chosen_range = 50
         attempts_left = 10
@@ -42,7 +42,7 @@ def choose_level():
 def choose_mode():
     print("\nYou can choose: \n[1] Classic mode \n[2] Classic with Difficulty\n[3] Time Challenge mode (limited time)\n")
 
-    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range.
+    # Loop to catch non-integer inputs, printing error and repeating loop, break if within range
     while True: 
         try:
             mode = int(input("Choose a mode (1, 2, or 3): "))
@@ -59,10 +59,10 @@ def choose_mode():
 
 def choose_secret_number(mode: int):
 
-    # Prevents classic mode from having an attempt limit.
+    # Prevents classic mode from having an attempt limit
     attempts_left = -1
 
-    # Loop to catch non-integer inputs, output error and repeating loop, break if within range.
+    # Loop to catch non-integer inputs, output error and repeating loop, break if within range
     if mode == 1:
         while True: 
             try:
@@ -80,13 +80,13 @@ def choose_secret_number(mode: int):
         chosen_range, attempts_left = choose_level()
         print(f"\nYou will have {attempts_left} attempts to guess a number between 1 and {chosen_range}.")
         
-        
+    # Chooses the secret number using the chosen range 
     secret_number = DEBUG_SECRET if DEBUG_SECRET is not None else random.randint(1, chosen_range)
     return secret_number, attempts_left, mode, chosen_range
 
 
 # ---------- Guess loop ----------
-# Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time.
+# Goal: keep asking for guesses until the player wins, runs out of attempts, or runs out of time
 
 def out_of_range(guess: int, chosen_range: int) -> bool:
     if guess < 1 or guess > chosen_range:
@@ -102,7 +102,7 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int, chosen_range: 
     # Guess loop continues until the player guesses the secret number or runs out of attempts
     while guess != secret_number and attempts_left != 0:
 
-        # In timed mode, break when the time limit is reached, otherwise show the time remaining.
+        # In timed mode, break when the time limit is reached, otherwise show the time remaining
         elapsed_time = time.time() - start_time
         if mode == 3 and elapsed_time > TIME_LIMIT:
             print("\nTime's up! You ran out of time.")
@@ -111,6 +111,7 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int, chosen_range: 
             time_remaining = TIME_LIMIT - elapsed_time
             print(f"\nYou have {time_remaining:.2f} seconds left.")
 
+        # Catch non-integer and out of range inputs, prevents them from counting as attempts
         try:
             guess = int(input("Enter your guess: "))
             if out_of_range(guess, chosen_range):
@@ -129,9 +130,11 @@ def guess_loop(secret_number: int, attempts_left: int, mode: int, chosen_range: 
             print(f"\nCongratulations! You've guessed the secret number in {attempt} attempts!")
             break
 
+        # If there are attempts left, print how many are remaining
         if attempts_left > 0:
             print(f"You have {attempts_left} attempts left.")
 
+    # At the end of the game, reveal the secret number
     print(f"\nThe secret number was: {secret_number}")
 
 
