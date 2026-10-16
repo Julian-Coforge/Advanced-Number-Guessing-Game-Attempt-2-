@@ -5,7 +5,9 @@ Additionally, I had intepreted Feature 1 (Classic Mode) 'The computer picks a ra
 To run the game:
 
 python3 -m venv .venv
+
 source .venv/bin/activate
+
 python guess.py
 
 | # | What I tested | What I did | Expected result | Actual result | Pass? |
