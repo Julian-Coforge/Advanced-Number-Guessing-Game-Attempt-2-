@@ -2,6 +2,12 @@
 Notes: I forgot to do feature branches when creating the first version, hence attempt 2
 Additionally, I had intepreted Feature 1 (Classic Mode) 'The computer picks a random secret number in the chosen range.' as meaning the user selects the range, so I have one extra mode.. the Classic with Difficulty is Feature 2, and Timed Challenge is Feature 3.
 
+To run the game:
+
+python3 -m venv .venv
+source .venv/bin/activate
+python guess.py
+
 | # | What I tested | What I did | Expected result | Actual result | Pass? |
 |---|---------------|------------|-----------------|---------------|-------|
 | 1 | How the level guess handles value errors (emtpy value, characters, etc. ) | Inputted any non-int instead of int into level guess | Repeats input question, catches errors | Repeated input question, no errors thrown | Yes |
